@@ -1,3 +1,4 @@
+```
 Tried every approach for iteration 
 1-5 
 most of them terriblly failed or GPU entensive 
@@ -23,3 +24,5 @@ and MostIMP thing
 NO AI for code, this project is to understand internals of an LLM
 
 Happy Coding:)
+
+```
