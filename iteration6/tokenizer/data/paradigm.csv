@@ -1,0 +1,151 @@
+stem,stem_nepali,slot,surface_form,gloss,verified
+gar,गर्,1SG.PRES,गर्छु,I do,YES
+gar,गर्,2SG.PRES,गर्छस्,you do (informal),YES
+gar,गर्,2SG.PRES.MID,गर्छौ,you do (friendly),YES
+gar,गर्,3SG.PRES,गर्छ,he/she does,YES
+gar,गर्,1PL.PRES,गर्छौं,we do,YES
+gar,गर्,2PL.PRES,गर्छौ,you all do,YES
+gar,गर्,3PL.PRES,गर्छन्,they do,YES
+gar,गर्,2HON.PRES,गर्नुहुन्छ,you do (honorific),YES
+gar,गर्,3HON.PRES,गर्नुहुन्छ,he/she does (honorific),YES
+gar,गर्,1SG.PAST,गरें,I did,YES
+gar,गर्,2SG.PAST,गर्यौ,you did (informal),YES
+gar,गर्,3SG.PAST,गर्यो,he/she did,YES
+gar,गर्,1PL.PAST,गर्यौं,we did,YES
+gar,गर्,2PL.PAST,गर्यौ,you all did,YES
+gar,गर्,3PL.PAST,गरे,they did,YES
+gar,गर्,2HON.PAST,गर्नुभयो,you did (honorific),YES
+gar,गर्,3HON.PAST,गर्नुभयो,he/she did (honorific),YES
+gar,गर्,1SG.FUT,गर्नेछु,I will do,YES
+gar,गर्,2SG.FUT,गर्नेछस्,you will do (informal),YES
+gar,गर्,3SG.FUT,गर्नेछ,he/she will do,YES
+gar,गर्,1PL.FUT,गर्नेछौं,we will do,YES
+gar,गर्,3PL.FUT,गर्नेछन्,they will do,YES
+gar,गर्,2HON.FUT,गर्नुहुनेछ,you will do (honorific),YES
+gar,गर्,3HON.FUT,गर्नुहुनेछ,he/she will do (honorific),YES
+kha,खा,1SG.PRES,खान्छु,I eat,YES
+kha,खा,2SG.PRES,खान्छस्,you eat (informal),YES
+kha,खा,2SG.PRES.MID,खान्छौ,you eat (friendly),YES
+kha,खा,3SG.PRES,खान्छ,he/she eats,YES
+kha,खा,1PL.PRES,खान्छौं,we eat,YES
+kha,खा,2PL.PRES,खान्छौ,you all eat,YES
+kha,खा,3PL.PRES,खान्छन्,they eat,YES
+kha,खा,2HON.PRES,खानुहुन्छ,you eat (honorific),YES
+kha,खा,3HON.PRES,खानुहुन्छ,he/she eats (honorific),YES
+kha,खा,1SG.PAST,खाएँ,I ate,YES
+kha,खा,2SG.PAST,खायौ,you ate (informal),YES
+kha,खा,3SG.PAST,खायो,he/she ate,YES
+kha,खा,1PL.PAST,खायौं,we ate,YES
+kha,खा,2PL.PAST,खायौ,you all ate,YES
+kha,खा,3PL.PAST,खाए,they ate,YES
+kha,खा,2HON.PAST,खानुभयो,you ate (honorific),YES
+kha,खा,3HON.PAST,खानुभयो,he/she ate (honorific),YES
+kha,खा,1SG.FUT,खानेछु,I will eat,YES
+kha,खा,2SG.FUT,खानेछस्,you will eat (informal),YES
+kha,खा,3SG.FUT,खानेछ,he/she will eat,YES
+kha,खा,1PL.FUT,खानेछौं,we will eat,YES
+kha,खा,3PL.FUT,खानेछन्,they will eat,YES
+kha,खा,2HON.FUT,खानुहुनेछ,you will eat (honorific),YES
+kha,खा,3HON.FUT,खानुहुनेछ,he/she will eat (honorific),YES
+ja,जा,1SG.PRES,जान्छु,I go,YES
+ja,जा,2SG.PRES,जान्छस्,you go (informal),YES
+ja,जा,2SG.PRES.MID,जान्छौ,you go (friendly),YES
+ja,जा,3SG.PRES,जान्छ,he/she goes,YES
+ja,जा,1PL.PRES,जान्छौं,we go,YES
+ja,जा,2PL.PRES,जान्छौ,you all go,YES
+ja,जा,3PL.PRES,जान्छन्,they go,YES
+ja,जा,2HON.PRES,जानुहुन्छ,you go (honorific),YES
+ja,जा,3HON.PRES,जानुहुन्छ,he/she goes (honorific),YES
+ja,जा,1SG.PAST,गएँ,I went,YES
+ja,जा,2SG.PAST,गयौ,you went (informal),YES
+ja,जा,3SG.PAST,गयो,he/she went,YES
+ja,जा,1PL.PAST,गयौं,we went,YES
+ja,जा,2PL.PAST,गयौ,you all went,YES
+ja,जा,3PL.PAST,गए,they went,YES
+ja,जा,2HON.PAST,जानुभयो,you went (honorific),YES
+ja,जा,3HON.PAST,जानुभयो,he/she went (honorific),YES
+ja,जा,1SG.FUT,जानेछु,I will go,YES
+ja,जा,2SG.FUT,जानेछस्,you will go (informal),YES
+ja,जा,3SG.FUT,जानेछ,he/she will go,YES
+ja,जा,1PL.FUT,जानेछौं,we will go,YES
+ja,जा,3PL.FUT,जानेछन्,they will go,YES
+ja,जा,2HON.FUT,जानुहुनेछ,you will go (honorific),YES
+ja,जा,3HON.FUT,जानुहुनेछ,he/she will go (honorific),YES
+aa,आ,1SG.PRES,आउँछु,I come,YES
+aa,आ,2SG.PRES,आउँछस्,you come (informal),YES
+aa,आ,2SG.PRES.MID,आउँछौ,you come (friendly),YES
+aa,आ,3SG.PRES,आउँछ,he/she comes,YES
+aa,आ,1PL.PRES,आउँछौं,we come,YES
+aa,आ,2PL.PRES,आउँछौ,you all come,YES
+aa,आ,3PL.PRES,आउँछन्,they come,YES
+aa,आ,2HON.PRES,आउनुहुन्छ,you come (honorific),YES
+aa,आ,3HON.PRES,आउनुहुन्छ,he/she comes (honorific),YES
+aa,आ,1SG.PAST,आएँ,I came,YES
+aa,आ,2SG.PAST,आयौ,you came (informal),YES
+aa,आ,3SG.PAST,आयो,he/she came,YES
+aa,आ,1PL.PAST,आयौं,we came,YES
+aa,आ,2PL.PAST,आयौ,you all came,YES
+aa,आ,3PL.PAST,आए,they came,YES
+aa,आ,2HON.PAST,आउनुभयो,you came (honorific),YES
+aa,आ,3HON.PAST,आउनुभयो,he/she came (honorific),YES
+aa,आ,1SG.FUT,आउनेछु,I will come,YES
+aa,आ,2SG.FUT,आउनेछस्,you will come (informal),YES
+aa,आ,3SG.FUT,आउनेछ,he/she will come,YES
+aa,आ,1PL.FUT,आउनेछौं,we will come,YES
+aa,आ,3PL.FUT,आउनेछन्,they will come,YES
+aa,आ,2HON.FUT,आउनुहुनेछ,you will come (honorific),YES
+aa,आ,3HON.FUT,आउनुहुनेछ,he/she will come (honorific),YES
+bol,बोल्,1SG.PRES,बोल्छु,I speak,YES
+bol,बोल्,2SG.PRES,बोल्छस्,you speak (informal),YES
+bol,बोल्,2SG.PRES.MID,बोल्छौ,you speak (friendly),YES
+bol,बोल्,3SG.PRES,बोल्छ,he/she speaks,YES
+bol,बोल्,1PL.PRES,बोल्छौं,we speak,YES
+bol,बोल्,2PL.PRES,बोल्छौ,you all speak,YES
+bol,बोल्,3PL.PRES,बोल्छन्,they speak,YES
+bol,बोल्,2HON.PRES,बोल्नुहुन्छ,you speak (honorific),YES
+bol,बोल्,3HON.PRES,बोल्नुहुन्छ,he/she speaks (honorific),YES
+bol,बोल्,1SG.PAST,बोलें,I spoke,YES
+bol,बोल्,2SG.PAST,बोल्यौ,you spoke (informal),YES
+bol,बोल्,3SG.PAST,बोल्यो,he/she spoke,YES
+bol,बोल्,1PL.PAST,बोल्यौं,we spoke,YES
+bol,बोल्,2PL.PAST,बोल्यौ,you all spoke,YES
+bol,बोल्,3PL.PAST,बोले,they spoke,YES
+bol,बोल्,2HON.PAST,बोल्नुभयो,you spoke (honorific),YES
+bol,बोल्,3HON.PAST,बोल्नुभयो,he/she spoke (honorific),YES
+bol,बोल्,1SG.FUT,बोल्नेछु,I will speak,YES
+bol,बोल्,2SG.FUT,बोल्नेछस्,you will speak (informal),YES
+bol,बोल्,3SG.FUT,बोल्नेछ,he/she will speak,YES
+bol,बोल्,1PL.FUT,बोल्नेछौं,we will speak,YES
+bol,बोल्,3PL.FUT,बोल्नेछन्,they will speak,YES
+bol,बोल्,2HON.FUT,बोल्नुहुनेछ,you will speak (honorific),YES
+bol,बोल्,3HON.FUT,बोल्नुहुनेछ,he/she will speak (honorific),YES
+ghar,घर,NOM,घर,house (subject),YES
+ghar,घर,ACC,घरलाई,house (object),YES
+ghar,घर,GEN,घरको,of the house,YES
+ghar,घर,LOC,घरमा,in/at the house,YES
+ghar,घर,ABL,घरबाट,from the house,YES
+ghar,घर,INS,घरले,by the house,YES
+manchhe,मान्छे,NOM,मान्छे,person (subject),YES
+manchhe,मान्छे,ACC,मान्छेलाई,person (object),YES
+manchhe,मान्छे,GEN,मान्छेको,of the person,YES
+manchhe,मान्छे,LOC,मान्छेमा,in/at the person,YES
+manchhe,मान्छे,ABL,मान्छेबाट,from the person,YES
+manchhe,मान्छे,INS,मान्छेले,by the person,YES
+kitab,किताब,NOM,किताब,book (subject),YES
+kitab,किताब,ACC,किताबलाई,book (object),YES
+kitab,किताब,GEN,किताबको,of the book,YES
+kitab,किताब,LOC,किताबमा,in/at the book,YES
+kitab,किताब,ABL,किताबबाट,from the book,YES
+kitab,किताब,INS,किताबले,by the book,YES
+gaun,गाउँ,NOM,गाउँ,village (subject),YES
+gaun,गाउँ,ACC,गाउँलाई,village (object),YES
+gaun,गाउँ,GEN,गाउँको,of the village,YES
+gaun,गाउँ,LOC,गाउँमा,in/at the village,YES
+gaun,गाउँ,ABL,गाउँबाट,from the village,YES
+gaun,गाउँ,INS,गाउँले,by the village,YES
+sahar,सहर,NOM,सहर,city (subject),YES
+sahar,सहर,ACC,सहरलाई,city (object),YES
+sahar,सहर,GEN,सहरको,of the city,YES
+sahar,सहर,LOC,सहरमा,in/at the city,YES
+sahar,सहर,ABL,सहरबाट,from the city,YES
+sahar,सहर,INS,सहरले,by the city,YES
