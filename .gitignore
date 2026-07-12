@@ -1,5 +1,5 @@
 arch.png
 data/ne.txt
 .venv/
-
+*.txt
 data/
