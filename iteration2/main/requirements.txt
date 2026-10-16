@@ -1,4 +1,0 @@
-torch
-sentencepiece
-numpy
-streamlit
