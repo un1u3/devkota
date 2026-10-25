@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 
 class LayerNorm(nn.Module):
-    def __init__(self, d_model, eps = 1e-6):
+    def __init__(self, d_model, eps: float = 1e-6):
         super().__init__()
         self.eps = eps 
 
@@ -23,8 +23,8 @@ class LayerNorm(nn.Module):
 class FeedForward(nn.Module):
     def __init__(self, d_model, d_ff, dropout):
         super().__init__()
-        self.linear1 = nn.Linear(d_model, d_ff)
-        self.linear2 = nn.Linear(d_ff, d_model)
+        self.linear1 = nn.Linear(d_model, d_ff) # W1 and B1
+        self.linear2 = nn.Linear(d_ff, d_model) # W2 and B2   according to paper
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):   #(B, T, d_model)
@@ -32,5 +32,7 @@ class FeedForward(nn.Module):
         h = torch.relu(h)   # non-linearity 
         h = self.dropout(h) # regularization  
         return self.linear2(h) # (B, T, d_model)
+
+    # future reference : T = seq_len
     
     

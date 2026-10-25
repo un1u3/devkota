@@ -5,7 +5,7 @@ import torch.nn as nn
 
 class MultiHeadAttention(nn.Module):
 
-    def __init__(self, d_model, h, dropout):
+    def __init__(self, d_model: int, h: int, dropout: float):
         super().__init__()
         assert d_model % h == 0, "d_model must be divisible by h"
         self.d_model = d_model
@@ -52,3 +52,7 @@ class MultiHeadAttention(nn.Module):
 
 def causal_mask(T):
     return torch.tril(torch.ones(T, T)).view(1, 1, T, T)
+
+
+
+# Each head will see the full part of sentence but only a small part of embeddings
