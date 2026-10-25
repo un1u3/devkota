@@ -36,8 +36,9 @@ class MultiHeadAttention(nn.Module):
 
         # softmax over the last dim, each row sums to 1 
         attn = torch.softmax(scores, dim =-1)
+        # keep weights before dropout so each row still sums to 1
+        self.attn_weights = attn.detach()
         attn = self.dropout(attn)
-        self.attn_weights = attn 
 
         # weighted sum of values; (B, h, T, T) @ (B, h, T, d_k) -> (B, h, T, d_k)
         out = attn @ v 
