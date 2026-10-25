@@ -25,5 +25,5 @@ spm.SentencePieceTrainer.train(
 
 # load the trained model for encoding/decoding
 sp = spm.SentencePieceProcessor(
-    model_file='../tokenizer/devkota_tokenizer.model'
+    model_file='devkota_tokenizer.model'
 )
