@@ -1,5 +1,5 @@
 # Trains a SentencePiece subword tokenizer for Devkota and loads it back.
-
+import sentencepiece as spm
 def train(
     input_file='../data/tokenizer/train_tokenizer_corpus.txt',
     model_prefix='devkota_tokenizer',
