@@ -50,8 +50,8 @@ class MultiHeadAttention(nn.Module):
         return self.w_o(out)
 
 
-def causal_mask(T):
-    return torch.tril(torch.ones(T, T)).view(1, 1, T, T)
+def causal_mask(T, device=None):
+    return torch.tril(torch.ones(T, T, dtype=torch.bool, device=device)).view(1, 1, T, T)
 
 
 

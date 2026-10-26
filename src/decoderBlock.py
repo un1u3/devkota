@@ -1,7 +1,11 @@
 import torch
 import torch.nn as nn
-from layerNorm import LayerNorm, FeedForward
-from mha import MultiHeadAttention
+try:
+    from .layerNorm import LayerNorm, FeedForward
+    from .mha import MultiHeadAttention
+except ImportError:
+    from layerNorm import LayerNorm, FeedForward
+    from mha import MultiHeadAttention
 
 class DecoderBlock(nn.Module):
     def __init__(self,d_model, h, d_ff, dropout):
@@ -12,7 +16,7 @@ class DecoderBlock(nn.Module):
         self.ffn = FeedForward(d_model, d_ff, dropout)
         self.drop = nn.Dropout(dropout)
 
-    def forward(self, x, mask):
+    def forward(self, x, mask=None):
         # sub-layer 1: attn
         x = x + self.drop(self.attn(self.ln1(x), mask))
 
