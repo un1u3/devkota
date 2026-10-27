@@ -65,7 +65,7 @@ def cmd_generate(args):
     if not args.raw:
         rules = PoemRules(lines=args.lines, metre=args.metre, metre_tolerance=args.metre_tolerance,
                           syllables=args.syllables, rhyme=args.rhyme,
-                          theme_words=[w for w in args.theme.split(",") if w])
+                          theme_words=[w for w in (args.theme or args.prompt).split(",") if w])
         print(write_poem(model, sp, rules, prompt=args.prompt, candidates=args.candidates,
                          temperature=args.temperature, top_k=args.top_k, verbose=args.verbose))
         return

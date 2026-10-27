@@ -233,8 +233,8 @@ def metre_checker(pattern, tolerance, decode, newline_id, eos_id):
         if tok == eos_id:
             return False
         if tok == newline_id:
-            return len(weights(decode(line_ids))) == n and \
-                metre_errors(decode(line_ids), pattern) <= tolerance
+            line = decode(line_ids)
+            return len(weights(line)) == n and metre_errors(line, pattern) <= tolerance
         text = decode(line_ids + [tok])
         if cheats(text):
             return False
@@ -251,61 +251,37 @@ def metre_checker(pattern, tolerance, decode, newline_id, eos_id):
 @torch.no_grad()
 def sample_lines(model, context, n, newline_id, eos_id, check=None, max_tokens=64,
                  temperature=0.8, top_k=50):
-    """Sample n continuations of context, each stopping at the first newline.
+    """Beam search for up to n lines after context, each ending at a newline.
 
-    check(line_ids, token) -> bool rejects tokens (e.g. ones that break the metre);
-    a rejected token is removed and another is drawn from the same distribution.
-    Returns (token_ids, mean_logprob) for every candidate that finished its line.
+    Rejection sampling picks random tokens that fit the metre, which with a small
+    model gives nonsense; a beam keeps the n most likely prefixes that still fit.
+    check(line_ids, token) -> bool rejects tokens (e.g. ones that break the metre).
+    Gumbel noise scaled by temperature varies the beam so poems differ per run.
+    Returns (token_ids, mean_logprob) for every line that finished.
     """
     device = next(model.parameters()).device
-    idx = torch.tensor([context] * n, dtype=torch.long, device=device)
-    start = idx.size(1)
-    done = [False] * n
-    dead = [False] * n          # no allowed token left, or never reached a line end
-    logp_sum = [0.0] * n
-    length = [0] * n
-    lines = [[] for _ in range(n)]
-
+    beams, finished = [([], 0.0)], []
     for _ in range(max_tokens):
+        idx = torch.tensor([context + ids for ids, _ in beams], dtype=torch.long, device=device)
         logits = model(idx[:, -model.max_seq_len:], return_loss=False)["logits"][:, -1]
-        logits = logits / temperature
-        if top_k:
-            v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
-            logits = logits.masked_fill(logits < v[:, [-1]], float("-inf"))
-        logprobs = F.log_softmax(logits, dim=-1).cpu()
-        probs = logprobs.exp()
+        top_lp, top_tok = F.log_softmax(logits, dim=-1).topk(top_k, dim=-1)
 
-        nxt = []
-        for r in range(n):
-            if done[r]:
-                nxt.append(newline_id)
-                continue
-            p = probs[r].clone()
-            tok = None
-            while p.sum() > 0:
-                t = torch.multinomial(p, 1).item()
-                if check is None or check(lines[r], t):
-                    tok = t
-                    break
-                p[t] = 0.0
-            if tok is None:  # every likely token breaks the rules: drop this candidate
-                dead[r], done[r] = True, True
-                nxt.append(newline_id)
-                continue
-            logp_sum[r] += logprobs[r, tok].item()
-            length[r] += 1
-            if tok in (newline_id, eos_id):
-                done[r] = True
-            else:
-                lines[r].append(tok)
-            nxt.append(tok)
-
-        idx = torch.cat([idx, torch.tensor(nxt, device=device)[:, None]], dim=1)
-        if all(done):
+        grown = []
+        for (ids, lp), lps, toks in zip(beams, top_lp.tolist(), top_tok.tolist()):
+            for l, t in zip(lps, toks):
+                if t == eos_id or (check is not None and not check(ids, t)):
+                    continue
+                if t == newline_id:
+                    if ids:
+                        finished.append((ids, (lp + l) / (len(ids) + 1)))
+                    continue
+                noise = -temperature * torch.empty(1).exponential_().log().item()
+                grown.append((lp + l + noise, ids + [t], lp + l))
+        if not grown or len(finished) >= n:
             break
-
-    return [(lines[r], logp_sum[r] / max(length[r], 1))
-            for r in range(n) if done[r] and not dead[r]]
+        grown.sort(key=lambda g: g[0], reverse=True)
+        beams = [(ids, lp) for _, ids, lp in grown[:n]]
+    return finished
 
 
 def write_poem(model, sp, rules: PoemRules, prompt="", candidates=24,
