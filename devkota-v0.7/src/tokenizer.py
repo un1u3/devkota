@@ -1,13 +1,14 @@
 # Trains a SentencePiece subword tokenizer for Devkota and loads it back.
 import os
 
-# paths are relative to the repo root so this works from any working directory
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TOKENIZER_DIR = os.path.join(ROOT, 'devkota-v0.7', 'tokenizer')
+# paths are relative to this file so this works from any working directory
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # devkota-v0.7/
+REPO = os.path.dirname(ROOT)                                          # repo root, holds data/
+TOKENIZER_DIR = os.path.join(ROOT, 'tokenizer')
 MODEL_FILE = os.path.join(TOKENIZER_DIR, 'devkota_tokenizer.model')
 
 def train(
-    input_file=os.path.join(ROOT, 'data', 'merged', 'train_merged.txt'),
+    input_file=os.path.join(REPO, 'data', 'merged', 'train_merged.txt'),
     model_prefix=os.path.join(TOKENIZER_DIR, 'devkota_tokenizer'),
     vocab_size=8000,
     character_coverage=0.9999,

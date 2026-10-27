@@ -30,14 +30,23 @@ def estimate_loss(model, splits, block_size, batch_size, device, iters=20):
     return out
 
 
-def save_checkpoint(path, model, step, val_loss):
+def save_checkpoint(path, model, step, val_loss, optimizer=None):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    torch.save({
+    ckpt = {
         "config": model.config,
         "model_state_dict": model.state_dict(),
         "step": step,
         "val_loss": val_loss,
-    }, path)
+    }
+    if optimizer is not None:
+        ckpt["optimizer_state_dict"] = optimizer.state_dict()
+    torch.save(ckpt, path)
+
+
+def last_path(out_path):
+    # rolling checkpoint used to resume after a disconnect (e.g. colab)
+    root, ext = os.path.splitext(out_path)
+    return f"{root}_last{ext or '.pt'}"
 
 
 def load_model(path, device="cpu"):
@@ -49,7 +58,7 @@ def load_model(path, device="cpu"):
 
 def train(train_bin, val_bin, out_path, init_from=None, config=None,
           max_steps=5000, batch_size=16, lr=3e-4, warmup=200, weight_decay=0.1,
-          grad_clip=1.0, eval_every=250, eval_iters=20, device="cpu"):
+          grad_clip=1.0, eval_every=250, eval_iters=20, device="cpu", resume=False):
     train_data = load_tokens(train_bin)
     if val_bin:
         val_data = load_tokens(val_bin)
@@ -58,7 +67,13 @@ def train(train_bin, val_bin, out_path, init_from=None, config=None,
         n = int(0.9 * len(train_data))
         train_data, val_data = train_data[:n], train_data[n:]
 
-    if init_from:
+    resume_ckpt = None
+    if resume and os.path.exists(last_path(out_path)):
+        model, resume_ckpt = load_model(last_path(out_path), device)
+        print(f"resuming from {last_path(out_path)} at step {resume_ckpt['step']}")
+    elif resume:
+        raise FileNotFoundError(f"--resume given but {last_path(out_path)} does not exist")
+    elif init_from:
         model, _ = load_model(init_from, device)
         print(f"loaded weights from {init_from}")
     else:
@@ -76,9 +91,16 @@ def train(train_bin, val_bin, out_path, init_from=None, config=None,
     )
 
     best_val = float("inf")
+    start_step = 0
+    if resume_ckpt is not None:
+        optimizer.load_state_dict(resume_ckpt["optimizer_state_dict"])
+        start_step = resume_ckpt["step"]
+        if os.path.exists(out_path):
+            best_val = torch.load(out_path, map_location="cpu")["val_loss"]
+
     t0 = time.time()
     model.train()
-    for step in range(max_steps + 1):
+    for step in range(start_step, max_steps + 1):
         for g in optimizer.param_groups:
             g["lr"] = lr_at(step, max_steps, lr, warmup)
 
@@ -89,6 +111,7 @@ def train(train_bin, val_bin, out_path, init_from=None, config=None,
             if losses["val"] < best_val:
                 best_val = losses["val"]
                 save_checkpoint(out_path, model, step, best_val)
+            save_checkpoint(last_path(out_path), model, step, losses["val"], optimizer)
             if step == max_steps:
                 break
 
