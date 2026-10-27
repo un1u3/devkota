@@ -4,3 +4,5 @@ data/ne.txt
 *.txt
 data/
 practice.ipynb
+__pycache__/
+checkpoints/
