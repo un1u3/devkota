@@ -1,10 +1,14 @@
 # Turns a text file into one long stream of token ids and samples random
 # (input, target) windows from it, the same way gpt-2 / nanoGPT train.
 import os
+import re
 import numpy as np
 import torch
 
 from .tokenizer import load
+
+# stanza markers on their own line: "क.", "ख.", "१.", "2." ...
+STANZA_MARKER = re.compile(r"^([क-ह]|[०-९0-9]+)\.$")
 
 
 def build_token_file(text_path, out_path, sep="eos", tokenizer_path=None):
@@ -17,13 +21,21 @@ def build_token_file(text_path, out_path, sep="eos", tokenizer_path=None):
     sep_id = sp.eos_id() if sep == "eos" else sp.piece_to_id("<0x0A>")
 
     ids = []
-    with open(text_path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            ids.extend(sp.encode(line))
-            ids.append(sep_id)
+    try:
+        with open(text_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                if sep == "newline" and STANZA_MARKER.match(line):
+                    continue  # otherwise the model learns to write "क." "ख." between lines
+                ids.extend(sp.encode(line))
+                ids.append(sep_id)
+    except UnicodeDecodeError as exc:
+        # usually a file whose upload was cut off mid-character
+        size = os.path.getsize(text_path)
+        raise ValueError(f"{text_path} ({size:,} bytes) is not valid utf-8, it is probably "
+                         f"truncated; re-upload it") from exc
 
     arr = np.array(ids, dtype=np.uint16)  # vocab is 8000, fits in uint16
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)

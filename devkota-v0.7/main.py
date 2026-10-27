@@ -11,6 +11,7 @@ import os
 import torch
 
 from src.data import build_token_file
+from src.poetry import METRES, PoemRules, write_poem
 from src.tokenizer import load
 from src.train import train, load_model
 
@@ -61,11 +62,21 @@ def cmd_generate(args):
     if args.seed is not None:
         torch.manual_seed(args.seed)
 
+    if not args.raw:
+        rules = PoemRules(lines=args.lines, metre=args.metre, metre_tolerance=args.metre_tolerance,
+                          syllables=args.syllables, rhyme=args.rhyme,
+                          theme_words=[w for w in args.theme.split(",") if w])
+        print(write_poem(model, sp, rules, prompt=args.prompt, candidates=args.candidates,
+                         temperature=args.temperature, top_k=args.top_k, verbose=args.verbose))
+        return
+
     ids = sp.encode(args.prompt) if args.prompt else [sp.bos_id()]
     input_ids = torch.tensor([ids], dtype=torch.long, device=args.device)
     out = model.generate(input_ids, args.max_tokens, temperature=args.temperature,
                          top_k=args.top_k, eos_token_id=sp.eos_id())
-    print(sp.decode(out[0].tolist()))
+    # sentencepiece puts a space before the first word after each '\n'; drop it
+    text = sp.decode(out[0].tolist())
+    print("\n".join(line.strip() for line in text.split("\n")))
 
 
 def main():
@@ -108,6 +119,17 @@ def main():
     g.add_argument("--temperature", type=float, default=0.8)
     g.add_argument("--top-k", type=int, default=50)
     g.add_argument("--seed", type=int, default=None)
+    # poem rules (see src/poetry.py); --raw turns them off and samples freely
+    g.add_argument("--lines", type=int, default=8)
+    g.add_argument("--metre", default=None,
+                   help=f"one of {sorted(METRES)} or an L/G pattern like LGLGLGLG")
+    g.add_argument("--metre-tolerance", type=int, default=1)
+    g.add_argument("--syllables", type=int, default=None, help="aksharas per line when no --metre")
+    g.add_argument("--rhyme", default="", help='scheme per stanza, e.g. "AABB" or "ABAB"')
+    g.add_argument("--theme", default="", help="comma-separated words to reward, e.g. हिमाल,जून")
+    g.add_argument("--candidates", type=int, default=24, help="lines sampled per line kept")
+    g.add_argument("--verbose", action="store_true", help="print each line's score and scan")
+    g.add_argument("--raw", action="store_true", help="plain sampling, no poem rules")
     g.set_defaults(fn=cmd_generate)
 
     args = p.parse_args()
