@@ -58,6 +58,11 @@ class Devkota(nn.Module):
         self.d_model = d_model
         self.max_seq_len = max_seq_len
         self.pad_idx = pad_idx
+        # saved in checkpoints so a model can be rebuilt without repeating its size
+        self.config = dict(
+            vocab_size=vocab_size, d_model=d_model, num_layers=num_layers, num_heads=num_heads,
+            d_ff=d_ff, max_seq_len=max_seq_len, dropout=dropout, pad_idx=pad_idx,
+        )
         self.token_embedding = InputEmbeddings(d_model, vocab_size)
         self.positional_encoding = PositionalEncoding(d_model, max_seq_len, dropout)
         self.transformer_blocks = nn.ModuleList(
@@ -66,6 +71,19 @@ class Devkota(nn.Module):
         self.ln_f = LayerNorm(d_model)
         self.lm_head = nn.Linear(d_model, vocab_size, bias=False)
         self.lm_head.weight = self.token_embedding.embedding.weight
+        self.apply(self._init_weights)
+        # gpt-2: scale down the projections that write into the residual stream
+        for name, p in self.named_parameters():
+            if name.endswith("attn.w_o.weight") or name.endswith("ffn.linear2.weight"):
+                nn.init.normal_(p, mean=0.0, std=0.02 / (2 * num_layers) ** 0.5)
+
+    @staticmethod
+    def _init_weights(module: nn.Module) -> None:
+        # gpt-2 init; pytorch's default N(0, 1) embedding is far too large once tied to lm_head
+        if isinstance(module, (nn.Linear, nn.Embedding)):
+            nn.init.normal_(module.weight, mean=0.0, std=0.02)
+        if isinstance(module, nn.Linear) and module.bias is not None:
+            nn.init.zeros_(module.bias)
 
     def forward(
         self,

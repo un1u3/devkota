@@ -1,8 +1,15 @@
 # Trains a SentencePiece subword tokenizer for Devkota and loads it back.
-import sentencepiece as spm
+import os
+
+# paths are relative to this file so this works from any working directory
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # devkota-v0.7/
+REPO = os.path.dirname(ROOT)                                          # repo root, holds data/
+TOKENIZER_DIR = os.path.join(ROOT, 'tokenizer')
+MODEL_FILE = os.path.join(TOKENIZER_DIR, 'devkota_tokenizer.model')
+
 def train(
-    input_file='../data/tokenizer/train_tokenizer_corpus.txt',
-    model_prefix='devkota_tokenizer',
+    input_file=os.path.join(REPO, 'data', 'merged', 'train_merged.txt'),
+    model_prefix=os.path.join(TOKENIZER_DIR, 'devkota_tokenizer'),
     vocab_size=8000,
     character_coverage=0.9999,
 ):
@@ -18,7 +25,7 @@ def train(
     )
 
 
-def load(model_file='devkota_tokenizer.model'):
+def load(model_file=MODEL_FILE):
     """Load a trained SentencePiece model."""
     try:
         import sentencepiece as spm

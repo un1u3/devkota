@@ -1,6 +1,7 @@
 # layer norm is used to stabilize the distibution of activation during training 
 import torch.nn as nn
 import torch
+import torch.nn.functional as F
 
 class LayerNorm(nn.Module):
     def __init__(self, d_model, eps: float = 1e-6):
@@ -29,7 +30,7 @@ class FeedForward(nn.Module):
 
     def forward(self, x):   #(B, T, d_model)
         h = self.linear1(x) # (B, T, d_ff)
-        h = torch.relu(h)   # non-linearity 
+        h = F.gelu(h)       # non-linearity (gelu, as in gpt-2)
         h = self.dropout(h) # regularization  
         return self.linear2(h) # (B, T, d_model)
 
